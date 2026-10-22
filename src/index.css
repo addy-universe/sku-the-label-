@@ -1,0 +1,584 @@
+/* ==========================================================================
+   SKU THE LABEL — DESIGN SYSTEM: LUXURY PINK & BLACK PALETTE
+   ========================================================================== */
+
+:root {
+  /* Brand Luxury Pink & Black Palette */
+  --color-noir-black: #0A0A0C;
+  --color-obsidian-surface: #121117;
+  --color-obsidian-card: rgba(22, 19, 26, 0.75);
+  
+  --color-vibrant-pink: #FF2E74;
+  --color-hot-pink: #FF4D80;
+  --color-blush-pink: #FF9EBB;
+  --color-soft-pink: #FFD2DF;
+  --color-rose-glow: rgba(255, 46, 116, 0.35);
+  --color-pink-border: rgba(255, 77, 128, 0.3);
+
+  /* Semantic Mappings for complete system consistency */
+  --color-warm-ivory: #0A0A0C;
+  --color-soft-beige: #141219;
+  --color-espresso: #FFFFFF;
+  --color-dusty-rose: #FF4D80;
+  --color-muted-taupe: #FF9EBB;
+  --color-white: #FFFFFF;
+
+  --color-espresso-90: rgba(255, 255, 255, 0.92);
+  --color-espresso-75: rgba(255, 235, 242, 0.8);
+  --color-espresso-40: rgba(255, 158, 187, 0.5);
+  --color-espresso-15: rgba(255, 77, 128, 0.25);
+  --color-espresso-08: rgba(255, 77, 128, 0.12);
+
+  --color-dusty-rose-light: rgba(255, 77, 128, 0.22);
+  --color-dusty-rose-subtle: rgba(255, 77, 128, 0.1);
+
+  /* Typography */
+  --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing */
+  --container-max-width: 1280px;
+  --section-padding-y: clamp(4rem, 8vw, 7.5rem);
+  --section-padding-x: clamp(1.25rem, 4vw, 3rem);
+
+  /* Elevation & Borders */
+  --border-subtle: 1px solid rgba(255, 77, 128, 0.18);
+  --border-rose: 1px solid rgba(255, 77, 128, 0.4);
+  --shadow-editorial: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 77, 128, 0.15);
+  --shadow-hover: 0 24px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 77, 128, 0.35);
+
+  /* Transitions */
+  --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-normal: 0.35s;
+  --duration-slow: 0.6s;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-warm-ivory);
+  color: var(--color-espresso);
+  line-height: 1.6;
+  font-weight: 400;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--duration-normal) var(--transition-smooth);
+}
+
+button, input {
+  font-family: inherit;
+}
+
+/* Editorial Typography System */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--color-espresso);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-muted-taupe);
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.hero-headline {
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.section-headline {
+  font-size: clamp(2.2rem, 5vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+}
+
+.sub-headline {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.lead-text {
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--color-espresso-75);
+  font-weight: 300;
+}
+
+/* Layout Utilities */
+.container {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
+  width: 100%;
+}
+
+.section-editorial {
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+}
+
+/* Editorial Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, #FF2E74 0%, #FF4D80 100%);
+  color: #0A0A0C;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 1.05rem 2.25rem;
+  border: 1px solid #FF4D80;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(255, 46, 116, 0.35);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #FF4D80 0%, #FF7597 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(255, 46, 116, 0.55);
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background-color: rgba(22, 19, 26, 0.8);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 1.05rem 2.25rem;
+  border: 1px solid rgba(255, 77, 128, 0.4);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--transition-smooth);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 77, 128, 0.15);
+  border-color: #FF4D80;
+  color: #FF9EBB;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255, 77, 128, 0.3);
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background-color: rgba(22, 19, 26, 0.9);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.8rem;
+  border: 1px solid rgba(255, 77, 128, 0.35);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--transition-smooth);
+}
+
+.btn-whatsapp:hover {
+  background-color: rgba(37, 211, 102, 0.15);
+  border-color: #25D366;
+  color: #25D366;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.25);
+}
+
+/* Editorial Form Inputs */
+.input-editorial {
+  width: 100%;
+  background-color: rgba(18, 15, 22, 0.85);
+  border: 1px solid rgba(255, 77, 128, 0.3);
+  padding: 1.05rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: #FFFFFF;
+  transition: all var(--duration-normal) var(--transition-smooth);
+  outline: none;
+  border-radius: 9999px;
+}
+
+.input-editorial::placeholder {
+  color: rgba(255, 158, 187, 0.6);
+  opacity: 0.75;
+  font-weight: 300;
+}
+
+.input-editorial:focus {
+  border-color: #FF4D80;
+  box-shadow: 0 0 16px rgba(255, 77, 128, 0.35);
+  background-color: rgba(26, 21, 32, 0.95);
+}
+
+/* Editorial Category Card Styles */
+.collection-card {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-soft-beige);
+  cursor: pointer;
+  transition: transform var(--duration-slow) var(--transition-smooth), box-shadow var(--duration-slow) var(--transition-smooth);
+}
+
+.collection-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.collection-card-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-soft-beige);
+}
+
+.collection-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--transition-smooth);
+}
+
+.collection-card:hover .collection-card-img {
+  transform: scale(1.04);
+}
+
+.collection-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(48, 36, 33, 0.6) 0%, rgba(48, 36, 33, 0.1) 40%, transparent 100%);
+  opacity: 0.7;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.collection-card:hover .collection-card-overlay {
+  opacity: 0.85;
+}
+
+/* Modal Dialog */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(48, 36, 33, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+.modal-content {
+  background-color: rgba(18, 15, 22, 0.96);
+  border: 1px solid rgba(255, 77, 128, 0.4);
+  max-width: 640px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 77, 128, 0.25);
+  animation: modalSlideUp 0.3s var(--transition-smooth);
+  color: #FFFFFF;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   PINK & BLACK HERO ANIMATIONS
+   ========================================================================== */
+
+/* 1. Heart Beat & Pink Neon Glow for SKU Brand */
+@keyframes heartBeatGlow {
+  0% { transform: rotate(10deg) scale(1); filter: drop-shadow(0 0 3px #FF4D80); }
+  14% { transform: rotate(10deg) scale(1.32); filter: drop-shadow(0 0 16px #FF2E74); }
+  28% { transform: rotate(10deg) scale(1); filter: drop-shadow(0 0 5px #FF4D80); }
+  42% { transform: rotate(10deg) scale(1.24); filter: drop-shadow(0 0 14px #FF2E74); }
+  70% { transform: rotate(10deg) scale(1); filter: drop-shadow(0 0 3px #FF4D80); }
+  100% { transform: rotate(10deg) scale(1); filter: drop-shadow(0 0 3px #FF4D80); }
+}
+
+.heart-beat-pulse {
+  animation: heartBeatGlow 1.6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* 2. Text Shimmer Glow */
+@keyframes pinkTextShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-headline {
+  background: linear-gradient(90deg, #FFFFFF 0%, #FFB6CB 25%, #FFFFFF 50%, #FF4D80 75%, #FFFFFF 100%);
+  background-size: 200% auto;
+  color: #FFFFFF;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pinkTextShimmer 6s linear infinite;
+}
+
+/* 3. Floating Rings Rotation & Aura Pulse */
+@keyframes pinkAuraPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 0.35;
+    border-color: rgba(255, 77, 128, 0.4);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.05);
+    opacity: 0.7;
+    border-color: rgba(255, 46, 116, 0.7);
+    box-shadow: 0 0 45px rgba(255, 46, 116, 0.3);
+  }
+}
+
+.animated-pink-ring-1 {
+  animation: pinkAuraPulse 12s ease-in-out infinite;
+}
+
+.animated-pink-ring-2 {
+  animation: pinkAuraPulse 16s ease-in-out infinite reverse;
+}
+
+/* 4. Floating Badges Stagger */
+@keyframes badgeLevitate {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.badge-float-1 { animation: badgeLevitate 3.4s ease-in-out infinite; }
+.badge-float-2 { animation: badgeLevitate 3.8s ease-in-out infinite 0.4s; }
+.badge-float-3 { animation: badgeLevitate 4.2s ease-in-out infinite 0.8s; }
+.badge-float-4 { animation: badgeLevitate 3.6s ease-in-out infinite 1.2s; }
+.badge-float-5 { animation: badgeLevitate 4.0s ease-in-out infinite 1.6s; }
+
+/* 5. Pink Glow Border on Badges */
+.badge-pink-glow {
+  background-color: rgba(18, 15, 23, 0.9) !important;
+  border: 1px solid rgba(255, 77, 128, 0.45) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 77, 128, 0.2) !important;
+  backdrop-filter: blur(14px) !important;
+  color: #FFFFFF !important;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.badge-pink-glow:hover {
+  border-color: #FF2E74 !important;
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.9), 0 0 28px rgba(255, 46, 116, 0.55) !important;
+  transform: translateY(-4px) scale(1.03) !important;
+}
+
+/* 6. Scroll Shake / Wobble Animation */
+@keyframes scroll-wobble-subtle {
+  0% { transform: translateY(0) rotate(0deg); }
+  20% { transform: translateY(-4px) rotate(-1deg); }
+  45% { transform: translateY(3px) rotate(0.8deg); }
+  70% { transform: translateY(-2px) rotate(-0.5deg); }
+  85% { transform: translateY(1px) rotate(0.3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.scroll-shake-active {
+  animation: scroll-wobble-subtle 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* 7. Tactile Micro Shake on Hover */
+@keyframes tactile-hover-shake {
+  0% { transform: scale(1) rotate(0deg); }
+  20% { transform: scale(1.025) rotate(-1.5deg) translateY(-2px); }
+  40% { transform: scale(1.025) rotate(1.5deg) translateY(-3px); }
+  60% { transform: scale(1.02) rotate(-0.8deg) translateY(-2px); }
+  80% { transform: scale(1.01) rotate(0.8deg) translateY(-1px); }
+  100% { transform: scale(1.02) rotate(0deg) translateY(-2px); }
+}
+
+.shake-on-hover {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.shake-on-hover:hover {
+  animation: tactile-hover-shake 0.5s ease-in-out both;
+}
+
+/* 8. Countdown Box Glowing Animated Gradient Frame */
+@keyframes countdown-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 77, 128, 0.35), 0 0 20px rgba(255, 77, 128, 0.15);
+  }
+  50% {
+    box-shadow: 0 24px 60px -5px rgba(0, 0, 0, 0.9), 0 0 36px rgba(255, 46, 116, 0.4), 0 0 0 2px rgba(255, 77, 128, 0.75);
+  }
+}
+
+.countdown-animated-box {
+  animation: countdown-pulse-glow 3.5s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+/* 9. Seconds Tick Pop & Highlight */
+@keyframes seconds-tick-pop {
+  0% {
+    transform: scale(0.92) translateY(2px);
+    opacity: 0.85;
+    color: #FF8FB1;
+    text-shadow: 0 0 12px rgba(255, 77, 128, 0.4);
+  }
+  40% {
+    transform: scale(1.08) translateY(-2px);
+    color: #FF2E74;
+    text-shadow: 0 0 20px rgba(255, 46, 116, 0.85);
+  }
+  75% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    color: #FF4D80;
+    text-shadow: 0 0 10px rgba(255, 77, 128, 0.4);
+  }
+}
+
+.seconds-tick-anim {
+  display: inline-block;
+  animation: seconds-tick-pop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* 10. Live Radar Pulse on Dot */
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.radar-dot-pulse {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-dot-pulse::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #FF2E74;
+  animation: radar-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* 11. Digit Card Floating Subtle Rhythm */
+.digit-card-active {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.digit-card-active:hover {
+  transform: translateY(-5px) scale(1.03) !important;
+  box-shadow: 0 14px 32px -4px rgba(255, 46, 116, 0.35) !important;
+  background-color: rgba(30, 24, 36, 0.95) !important;
+  border-color: #FF2E74 !important;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
