@@ -78,7 +78,7 @@ export const brandConfig: BrandConfig = {
 
   social: {
     instagramUrl: "https://instagram.com/sku.thelabel",
-    instagramHandle: "@sku.thelabel",
+    instagramHandle: "sku.thelabel",
     whatsappNumber: "+919599393269",
     whatsappDisplay: "+91 95993 93269",
     whatsappMessage: "Hello SKU THE LABEL Concierge, I would love early access to the upcoming launch.",

@@ -67,8 +67,6 @@ export const Footer: React.FC<FooterProps> = ({
                     borderRadius: "50%",
                     objectFit: "cover",
                     display: "block",
-                    transform: "rotate(14.5deg) scale(1.05)",
-                    transformOrigin: "center center",
                   }}
                 />
               </div>
@@ -295,7 +293,7 @@ export const Footer: React.FC<FooterProps> = ({
                 Owners: <strong style={{ color: "#FFFFFF" }}>{brandConfig.store.owners}</strong>
               </p>
               <p style={{ fontSize: "0.85rem", lineHeight: 1.6, color: "var(--color-hot-pink)", fontWeight: 600 }}>
-                Instagram: <strong>{brandConfig.social.instagramHandle}</strong>
+                Instagram: <strong>@{brandConfig.social.instagramHandle}</strong>
               </p>
             </div>
 
