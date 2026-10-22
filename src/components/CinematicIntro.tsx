@@ -47,30 +47,70 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     return audioCtxRef.current;
   }, []);
 
-  // 1. Synthesize Cinematic Sub-Bass Impact Boom
-  const playSubBoom = useCallback((freq = 75, duration = 0.85) => {
+  // Global listeners to automatically un-suspend Web Audio on any micro interaction
+  useEffect(() => {
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === "suspended") {
+      ctx.resume().catch(() => {});
+    }
+
+    const unlockAudio = () => {
+      const audioCtx = getAudioContext();
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+    };
+
+    const events = ["pointerdown", "mousedown", "touchstart", "keydown", "mousemove", "wheel", "focus"];
+    events.forEach((evt) => window.addEventListener(evt, unlockAudio, { passive: true, once: true }));
+
+    return () => {
+      events.forEach((evt) => window.removeEventListener(evt, unlockAudio));
+    };
+  }, [getAudioContext]);
+
+  // 1. Synthesize Cinematic Sub-Bass Impact Boom (Dual oscillator for punchy, deep bass)
+  const playSubBoom = useCallback((freq = 80, duration = 0.85) => {
     if (!isAudioEnabled) return;
     try {
       const ctx = getAudioContext();
-      if (!ctx || ctx.state !== "running") return;
+      if (!ctx) return;
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      const trigger = () => {
+        const osc = ctx.createOscillator();
+        const subOsc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(26, ctx.currentTime + duration);
+        // Main deep sub-bass drop (80Hz down to 24Hz)
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(24, ctx.currentTime + duration);
 
-      gain.gain.setValueAtTime(0.65, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        // Rich warm harmonic punch
+        subOsc.type = "triangle";
+        subOsc.frequency.setValueAtTime(freq * 1.5, ctx.currentTime);
+        subOsc.frequency.exponentialRampToValueAtTime(32, ctx.currentTime + duration * 0.7);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+        gain.gain.setValueAtTime(0.85, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
-      osc.start();
-      osc.stop(ctx.currentTime + duration);
+        osc.connect(gain);
+        subOsc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        subOsc.start();
+        osc.stop(ctx.currentTime + duration);
+        subOsc.stop(ctx.currentTime + duration);
+      };
+
+      if (ctx.state === "suspended") {
+        ctx.resume().then(trigger).catch(() => {});
+      } else {
+        trigger();
+      }
     } catch {
-      // Audio playback silently ignored if blocked by browser
+      // Audio playback silently caught
     }
   }, [getAudioContext, isAudioEnabled]);
 
@@ -79,61 +119,77 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     if (!isAudioEnabled) return;
     try {
       const ctx = getAudioContext();
-      if (!ctx || ctx.state !== "running") return;
+      if (!ctx) return;
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      const trigger = () => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(2200, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.05);
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(2400, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(700, ctx.currentTime + 0.05);
 
-      gain.gain.setValueAtTime(0.2, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.28, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
 
-      osc.start();
-      osc.stop(ctx.currentTime + 0.05);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+      };
+
+      if (ctx.state === "suspended") {
+        ctx.resume().then(trigger).catch(() => {});
+      } else {
+        trigger();
+      }
     } catch {
       // Silent catch
     }
   }, [getAudioContext, isAudioEnabled]);
 
-  // 3. Synthesize Supernova Launch Moment Blast & Chord
+  // 3. Synthesize Supernova Launch Moment Blast & Harmonic Chimes
   const playLaunchBlast = useCallback(() => {
     if (!isAudioEnabled) return;
     try {
       const ctx = getAudioContext();
-      if (!ctx || ctx.state !== "running") return;
+      if (!ctx) return;
 
-      // Heavy sub drop
-      const subOsc = ctx.createOscillator();
-      const subGain = ctx.createGain();
-      subOsc.type = "sine";
-      subOsc.frequency.setValueAtTime(95, ctx.currentTime);
-      subOsc.frequency.exponentialRampToValueAtTime(24, ctx.currentTime + 1.2);
-      subGain.gain.setValueAtTime(0.8, ctx.currentTime);
-      subGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
-      subOsc.connect(subGain);
-      subGain.connect(ctx.destination);
-      subOsc.start();
-      subOsc.stop(ctx.currentTime + 1.2);
+      const trigger = () => {
+        // Deep sub blast
+        const subOsc = ctx.createOscillator();
+        const subGain = ctx.createGain();
+        subOsc.type = "sine";
+        subOsc.frequency.setValueAtTime(100, ctx.currentTime);
+        subOsc.frequency.exponentialRampToValueAtTime(22, ctx.currentTime + 1.3);
+        subGain.gain.setValueAtTime(0.95, ctx.currentTime);
+        subGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.3);
+        subOsc.connect(subGain);
+        subGain.connect(ctx.destination);
+        subOsc.start();
+        subOsc.stop(ctx.currentTime + 1.3);
 
-      // Shimmering luxury chord (F major / A / C ethereal chime)
-      [523.25, 659.25, 783.99, 1046.5].forEach((frequency, index) => {
-        const chime = ctx.createOscillator();
-        const chimeGain = ctx.createGain();
-        chime.type = "sine";
-        chime.frequency.setValueAtTime(frequency, ctx.currentTime + index * 0.04);
-        chimeGain.gain.setValueAtTime(0.18, ctx.currentTime + index * 0.04);
-        chimeGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.5);
-        chime.connect(chimeGain);
-        chimeGain.connect(ctx.destination);
-        chime.start(ctx.currentTime + index * 0.04);
-        chime.stop(ctx.currentTime + 1.5);
-      });
+        // Shimmering luxury harmonic chord (F major / A / C ethereal chime)
+        [523.25, 659.25, 783.99, 1046.5].forEach((frequency, index) => {
+          const chime = ctx.createOscillator();
+          const chimeGain = ctx.createGain();
+          chime.type = "sine";
+          chime.frequency.setValueAtTime(frequency, ctx.currentTime + index * 0.04);
+          chimeGain.gain.setValueAtTime(0.22, ctx.currentTime + index * 0.04);
+          chimeGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.5);
+          chime.connect(chimeGain);
+          chimeGain.connect(ctx.destination);
+          chime.start(ctx.currentTime + index * 0.04);
+          chime.stop(ctx.currentTime + 1.5);
+        });
+      };
+
+      if (ctx.state === "suspended") {
+        ctx.resume().then(trigger).catch(() => {});
+      } else {
+        trigger();
+      }
     } catch {
       // Silent catch
     }
@@ -563,13 +619,6 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         )}
 
       </div>
-
-      {/* Audio hint if user hasn't clicked yet */}
-      {!hasInteracted && (
-        <div className="cinematic-sound-hint">
-          Click anywhere to enable cinematic audio
-        </div>
-      )}
     </div>
   );
 };
