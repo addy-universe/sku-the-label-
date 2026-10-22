@@ -12,20 +12,15 @@ export const App: React.FC = () => {
   const [legalModalType, setLegalModalType] = useState<"privacy" | "terms" | null>(null);
   const [contactModalOpen, setContactModalOpen] = useState(false);
 
-  // Cinematic Launch Intro State (Plays once per browser session, respects prefers-reduced-motion)
+  // Cinematic Launch Intro State — Guaranteed to show on all mobile devices & desktops on load
   const [showIntro, setShowIntro] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return false;
-    }
     const urlParams = new URLSearchParams(window.location.search);
+    // Allow URL override ?intro=false for testing/debugging
+    if (urlParams.get("intro") === "false") return false;
     if (urlParams.get("intro") === "true") return true;
-
-    try {
-      return !sessionStorage.getItem("sku_intro_played");
-    } catch {
-      return true;
-    }
+    // Always show intro on page load / phone launch
+    return true;
   });
 
   const [hasJustActivated, setHasJustActivated] = useState(false);
@@ -33,20 +28,10 @@ export const App: React.FC = () => {
   const handleIntroComplete = () => {
     setShowIntro(false);
     setHasJustActivated(true);
-    try {
-      sessionStorage.setItem("sku_intro_played", "true");
-    } catch {
-      // Ignore storage restrictions
-    }
     setTimeout(() => setHasJustActivated(false), 2000);
   };
 
   const handleReplayIntro = () => {
-    try {
-      sessionStorage.removeItem("sku_intro_played");
-    } catch {
-      // Ignore
-    }
     setShowIntro(true);
   };
 

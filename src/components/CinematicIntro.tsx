@@ -33,36 +33,56 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
   const particlesRef = useRef<Array<{ x: number; y: number; vx: number; vy: number; size: number; alpha: number; color: string }>>([]);
   const animFrameRef = useRef<number | null>(null);
 
-  // Initialize Web Audio safely respecting browser restrictions
+  // Safe Audio Context Getter (Guaranteed never to throw on iOS Safari/Android WebViews)
   const getAudioContext = useCallback(() => {
     if (!audioCtxRef.current && typeof window !== "undefined") {
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (AudioContextClass) {
-        audioCtxRef.current = new AudioContextClass();
+      try {
+        const AudioContextClass =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtxRef.current = new AudioContextClass();
+        }
+      } catch (e) {
+        console.warn("Web Audio deferred until user gesture:", e);
       }
     }
     if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
-      audioCtxRef.current.resume().catch(() => {});
+      try {
+        audioCtxRef.current.resume().catch(() => {});
+      } catch {
+        // Safe catch
+      }
     }
     return audioCtxRef.current;
   }, []);
 
-  // Global listeners to automatically un-suspend Web Audio on any micro interaction
+  // Unlock Web Audio on any micro interaction or mobile touch
   useEffect(() => {
-    const ctx = getAudioContext();
-    if (ctx && ctx.state === "suspended") {
-      ctx.resume().catch(() => {});
-    }
-
     const unlockAudio = () => {
-      const audioCtx = getAudioContext();
-      if (audioCtx && audioCtx.state === "suspended") {
-        audioCtx.resume().catch(() => {});
+      setHasInteracted(true);
+      try {
+        const audioCtx = getAudioContext();
+        if (audioCtx && audioCtx.state === "suspended") {
+          audioCtx.resume().catch(() => {});
+        }
+      } catch {
+        // Safe catch
       }
     };
 
-    const events = ["pointerdown", "mousedown", "touchstart", "keydown", "mousemove", "wheel", "focus"];
+    const events = ["touchstart", "touchend", "pointerdown", "mousedown", "keydown", "click"];
     events.forEach((evt) => window.addEventListener(evt, unlockAudio, { passive: true, once: true }));
+
+    // Also attempt early un-suspend
+    try {
+      const ctx = getAudioContext();
+      if (ctx && ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+      }
+    } catch {
+      // Safe catch
+    }
 
     return () => {
       events.forEach((evt) => window.removeEventListener(evt, unlockAudio));
@@ -195,8 +215,11 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     }
   }, [getAudioContext, isAudioEnabled]);
 
-  // Trigger camera shake effect
+  // Trigger camera shake effect (respects reduced motion gracefully)
   const triggerCameraShake = useCallback(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     setCameraShake(true);
     setTimeout(() => setCameraShake(false), 420);
   }, []);
@@ -247,22 +270,23 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [handleSkip]);
 
-  // Canvas floating stars & particles
+  // Canvas floating stars & particles (Responsive for all mobile screens)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let width = (canvas.width = Math.max(window.innerWidth || 0, document.documentElement.clientWidth || 0, 320));
+    let height = (canvas.height = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0, 480));
 
     const onResize = () => {
       if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      width = canvas.width = Math.max(window.innerWidth || 0, document.documentElement.clientWidth || 0, 320);
+      height = canvas.height = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0, 480);
     };
     window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
 
     // Initialize 70 ambient particles
     const particles: Array<{ x: number; y: number; vx: number; vy: number; size: number; alpha: number; color: string }> = [];
@@ -427,6 +451,8 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     <div
       className={`cinematic-intro-overlay ${cameraShake ? "camera-shake-active" : ""} ${isExiting ? "intro-exiting" : ""}`}
       onClick={handleUserInteraction}
+      onTouchStart={handleUserInteraction}
+      onPointerDown={handleUserInteraction}
       role="dialog"
       aria-modal="true"
       aria-label="Cinematic Launch Countdown Intro"
@@ -450,6 +476,14 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
               getAudioContext();
             }
           }}
+          onTouchEnd={(e) => {
+            e.stopPropagation();
+            setIsAudioEnabled(!isAudioEnabled);
+            if (!hasInteracted) {
+              setHasInteracted(true);
+              getAudioContext();
+            }
+          }}
           title={isAudioEnabled ? "Mute audio" : "Enable sound"}
           aria-label={isAudioEnabled ? "Mute audio" : "Enable sound"}
         >
@@ -461,6 +495,10 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
           type="button"
           className="cinematic-btn"
           onClick={(e) => {
+            e.stopPropagation();
+            handleSkip();
+          }}
+          onTouchEnd={(e) => {
             e.stopPropagation();
             handleSkip();
           }}
@@ -619,6 +657,13 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         )}
 
       </div>
+
+      {/* 5. Mobile audio tap hint */}
+      {isAudioEnabled && !hasInteracted && (
+        <div className="cinematic-sound-hint" aria-hidden="true">
+          <span>TAP ANYWHERE FOR SOUND</span>
+        </div>
+      )}
     </div>
   );
 };
