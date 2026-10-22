@@ -1,0 +1,389 @@
+/* ==========================================================================
+   SKU THE LABEL — CINEMATIC LAUNCH INTRO STYLES
+   Ultra-luxury, 60fps GPU-accelerated cinematic countdown sequence
+   ========================================================================== */
+
+.cinematic-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background-color: #050507;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  font-family: var(--font-sans, -apple-system, sans-serif);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.cinematic-intro-overlay.intro-exiting {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+/* Background canvas for starlight particles */
+.cinematic-particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient Radial Glow */
+.cinematic-ambient-glow {
+  position: absolute;
+  width: min(80vw, 700px);
+  height: min(80vw, 700px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 46, 116, 0.28) 0%, rgba(255, 77, 128, 0.08) 45%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 2;
+  animation: ambientBreathe 4s ease-in-out infinite alternate;
+}
+
+@keyframes ambientBreathe {
+  0% { transform: scale(0.92); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 0.95; }
+}
+
+/* Camera Micro-shake on number impact */
+.camera-shake-active {
+  animation: cameraImpactShake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes cameraImpactShake {
+  0% { transform: translate(0, 0) scale(1); }
+  15% { transform: translate(-3px, 2px) scale(1.008); }
+  30% { transform: translate(3px, -2px) scale(0.995); }
+  45% { transform: translate(-2px, -1px) scale(1.004); }
+  60% { transform: translate(2px, 1px) scale(0.998); }
+  75% { transform: translate(-1px, 1px) scale(1.001); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Center Stage Content Container */
+.cinematic-stage {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Luxury Subtitle / Pre-title */
+.cinematic-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(0.68rem, 1.2vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #FF9EBB;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out forwards 0.2s;
+}
+
+.cinematic-eyebrow .dot-radar {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FF2E74;
+  box-shadow: 0 0 10px #FF2E74;
+}
+
+/* Countdown Main Number (3, 2, 1) */
+.cinematic-count-number {
+  font-family: var(--font-serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(7rem, 22vw, 15rem);
+  font-weight: 600;
+  line-height: 0.9;
+  color: #FFFFFF;
+  margin: 0;
+  text-shadow: 0 0 45px rgba(255, 46, 116, 0.65), 0 0 90px rgba(255, 77, 128, 0.3);
+  position: relative;
+  display: inline-block;
+  animation: numberImpact 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes numberImpact {
+  0% {
+    opacity: 0;
+    transform: scale(2.8) translateY(-10px);
+    filter: blur(14px);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  82% {
+    transform: scale(0.98);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: scale(0.92);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+/* Shimmer Light Sweep on Number */
+.cinematic-count-number::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.7) 48%, rgba(255, 158, 187, 0.8) 52%, transparent 70%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+  animation: lightSweep 0.95s ease-out forwards;
+}
+
+@keyframes lightSweep {
+  0% { background-position: -150% 0; opacity: 0; }
+  30% { opacity: 1; }
+  100% { background-position: 150% 0; opacity: 0; }
+}
+
+/* Shockwave Expanding Rings */
+.shockwave-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  margin-top: -70px;
+  margin-left: -70px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 46, 116, 0.85);
+  box-shadow: 0 0 30px rgba(255, 77, 128, 0.6);
+  pointer-events: none;
+  animation: shockwaveExpand 0.9s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
+}
+
+@keyframes shockwaveExpand {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4.8);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+/* Phase 3: Digital Countdown / Launch Control System */
+.digital-countdown-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: panelEmerge 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes panelEmerge {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.digital-timer-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.8vw, 1.4rem);
+  background: rgba(18, 15, 23, 0.85);
+  border: 1px solid rgba(255, 77, 128, 0.45);
+  border-radius: 18px;
+  padding: clamp(1rem, 2.5vw, 1.6rem) clamp(1.2rem, 3.5vw, 2.8rem);
+  box-shadow: 0 0 50px rgba(255, 46, 116, 0.25), inset 0 0 30px rgba(255, 46, 116, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.digital-digit-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: clamp(48px, 9vw, 84px);
+}
+
+.digital-digit-value {
+  font-family: var(--font-serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 20px rgba(255, 77, 128, 0.7);
+}
+
+.digital-digit-label {
+  font-size: clamp(0.55rem, 1vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #FF9EBB;
+  margin-top: 0.35rem;
+}
+
+.digital-separator {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  color: #FF4D80;
+  font-weight: 300;
+  margin-top: -0.6rem;
+  opacity: 0.8;
+  animation: blinkFast 0.5s step-start infinite;
+}
+
+@keyframes blinkFast {
+  50% { opacity: 0.2; }
+}
+
+.digital-status-text {
+  margin-top: 1.4rem;
+  font-size: clamp(0.7rem, 1.3vw, 0.86rem);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: #FFD2DF;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Phase 4: Launch Flash & Supernova Pulse */
+.launch-moment-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.95) 0%, rgba(255, 110, 155, 0.8) 30%, rgba(255, 46, 116, 0.4) 60%, transparent 80%);
+  pointer-events: none;
+  z-index: 50;
+  animation: flashBurst 0.9s cubic-bezier(0.12, 0.95, 0.2, 1) forwards;
+}
+
+@keyframes flashBurst {
+  0% { opacity: 0; transform: scale(0.4); }
+  25% { opacity: 1; transform: scale(1.6); }
+  100% { opacity: 0; transform: scale(3.5); }
+}
+
+.launch-logo-reveal {
+  animation: logoExplodeReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes logoExplodeReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.65);
+    filter: blur(16px) drop-shadow(0 0 60px #FF2E74);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+    filter: blur(0) drop-shadow(0 0 80px #FF4D80);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 35px #FF2E74);
+  }
+}
+
+/* Top Action Controls: Skip & Audio Toggle */
+.cinematic-top-controls {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2.5rem);
+  right: clamp(1rem, 3vw, 2.5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.cinematic-btn {
+  background: rgba(18, 15, 23, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 77, 128, 0.35);
+  color: #FFFFFF;
+  padding: 0.55rem 1.15rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.cinematic-btn:hover {
+  background: rgba(255, 46, 116, 0.2);
+  border-color: #FF4D80;
+  box-shadow: 0 0 20px rgba(255, 46, 116, 0.45);
+  transform: translateY(-1px);
+}
+
+.cinematic-sound-hint {
+  position: absolute;
+  bottom: clamp(1.2rem, 3vw, 2.5rem);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 210, 223, 0.65);
+  text-transform: uppercase;
+  z-index: 100;
+  pointer-events: none;
+  animation: pulseGentle 2s ease-in-out infinite;
+}
+
+@keyframes pulseGentle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-count-number,
+  .camera-shake-active,
+  .shockwave-ring,
+  .launch-moment-flash {
+    animation: none !important;
+  }
+  .cinematic-intro-overlay {
+    transition: opacity 0.3s ease !important;
+  }
+}

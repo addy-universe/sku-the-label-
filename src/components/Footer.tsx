@@ -7,12 +7,14 @@ interface FooterProps {
   onOpenPrivacy: () => void;
   onOpenTerms: () => void;
   onOpenContact: () => void;
+  onReplayIntro?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenPrivacy,
   onOpenTerms,
   onOpenContact,
+  onReplayIntro,
 }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -343,6 +345,37 @@ export const Footer: React.FC<FooterProps> = ({
           <div>
             © {new Date().getFullYear()} {brandConfig.brandName}. All rights reserved.
           </div>
+
+          {onReplayIntro && (
+            <button
+              type="button"
+              onClick={onReplayIntro}
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(255, 77, 128, 0.35)",
+                borderRadius: "9999px",
+                color: "#FF9EBB",
+                padding: "0.35rem 0.95rem",
+                fontSize: "0.72rem",
+                fontWeight: 600,
+                letterSpacing: "0.14em",
+                cursor: "pointer",
+                transition: "all 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(255, 46, 116, 0.2)";
+                e.currentTarget.style.borderColor = "#FF4D80";
+                e.currentTarget.style.color = "#FFFFFF";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.borderColor = "rgba(255, 77, 128, 0.35)";
+                e.currentTarget.style.color = "#FF9EBB";
+              }}
+            >
+              ▶ REPLAY LAUNCH INTRO
+            </button>
+          )}
 
           <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
             <span>Designed with</span>
