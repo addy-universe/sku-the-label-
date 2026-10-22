@@ -190,7 +190,7 @@ export const HeroSection: React.FC = () => {
               padding: "3px",
               background: "linear-gradient(135deg, #FF2E74 0%, #FF85A2 50%, #FF2E74 100%)",
               boxShadow: "0 0 40px rgba(255, 46, 116, 0.55), 0 12px 35px rgba(0, 0, 0, 0.9)",
-              animation: "heartBeatGlow 4s ease-in-out infinite",
+              animation: "logoMedallionGlow 4s ease-in-out infinite",
               overflow: "hidden",
             }}
           >

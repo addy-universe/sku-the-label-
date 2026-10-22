@@ -382,6 +382,18 @@ h1, h2, h3, h4, .font-serif {
   transform-origin: center center;
 }
 
+/* 1b. Circular Logo Medallion Glow (0deg Straight - No Tilt) */
+@keyframes logoMedallionGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 35px rgba(255, 46, 116, 0.55), 0 12px 35px rgba(0, 0, 0, 0.9);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 52px rgba(255, 46, 116, 0.8), 0 16px 45px rgba(0, 0, 0, 0.95);
+  }
+}
+
 /* 2. Text Shimmer Glow */
 @keyframes pinkTextShimmer {
   0% {
