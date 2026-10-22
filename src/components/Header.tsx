@@ -94,8 +94,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
                 borderRadius: "50%",
                 objectFit: "cover",
                 display: "block",
-                transform: "rotate(-15deg) scale(1.05)",
-                transformOrigin: "center center",
               }}
             />
           </div>
