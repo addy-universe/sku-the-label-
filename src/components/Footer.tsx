@@ -55,6 +55,7 @@ export const Footer: React.FC<FooterProps> = ({
                   background: "linear-gradient(135deg, #FF2E74 0%, #FF85A2 100%)",
                   boxShadow: "0 0 16px rgba(255, 46, 116, 0.45)",
                   flexShrink: 0,
+                  overflow: "hidden",
                 }}
               >
                 <img
@@ -66,6 +67,8 @@ export const Footer: React.FC<FooterProps> = ({
                     borderRadius: "50%",
                     objectFit: "cover",
                     display: "block",
+                    transform: "rotate(14.5deg) scale(1.05)",
+                    transformOrigin: "center center",
                   }}
                 />
               </div>
